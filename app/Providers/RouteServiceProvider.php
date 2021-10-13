@@ -34,34 +34,34 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot ()
     {
-        $this->configureRateLimiting();
+        $this->configureRateLimiting ();
 
-        $this->routes(function () {
-            Route::prefix('api')
-                ->middleware('api')
-                ->group(base_path('routes/api.php'));
+        $this->routes (function () {
+            Route::prefix ('api')
+                ->middleware ('api')
+                ->group (base_path ('routes/api.php'));
 
-            Route::middleware('web')
-                ->group(base_path('routes/web.php'));
+            Route::middleware ('web')
+                ->group (base_path ('routes/web.php'));
 
-            Route::middleware('web')
-                ->group(base_path('routes/redirect.php'));
+            Route::middleware ('web')
+                ->group (base_path ('routes/redirect.php'));
         });
 
         // This will remove the index.php from the URL and prevent canonical conflicts.
-        if (Str::contains(request()->getRequestUri(), '/index.php/')) {
-            $url = str_replace('index.php/', '', request()->getRequestUri());
+        if (Str::contains (request ()->getRequestUri (), '/index.php/')) {
+            $url = str_replace ('index.php/', '', request ()->getRequestUri ());
 
-            if (strlen($url) > 0) {
-                header("Location: $url", true, 301);
+            if (strlen ($url) > 0) {
+                header ("Location: $url", true, 301);
                 exit;
             }
         }
-
+        //全局路由参数
         // The `id` must be an integer
-        Route::pattern('id', '[0-9]+');
+        Route::pattern ('id', '[0-9]+');
     }
 
     /**
@@ -69,10 +69,10 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function configureRateLimiting()
+    protected function configureRateLimiting ()
     {
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60);
+        RateLimiter::for ('api', function (Request $request) {
+            return Limit::perMinute (60);
         });
     }
 }

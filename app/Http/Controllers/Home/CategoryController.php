@@ -10,18 +10,18 @@ use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
-    public function show(Category $category): View
+    public function show (Category $category): View
     {
-        $articles = $category->articles()
-            ->orderBy('created_at', 'desc')
-            ->with('tags')
-            ->paginate(10);
+        $articles = $category->articles ()
+            ->orderBy ('created_at', 'desc')
+            ->with ('tags')
+            ->paginate (10);
 
-        if ($articles->isNotEmpty()) {
-            $articles->setCollection(
-                collect(
-                    $articles->items()
-                )->map(function ($v) use ($category) {
+        if ($articles->isNotEmpty ()) {
+            $articles->setCollection (
+                collect (
+                    $articles->items ()
+                )->map (function ($v) use ($category) {
                     $v->category = $category;
 
                     return $v;
@@ -30,18 +30,18 @@ class CategoryController extends Controller
         }
 
         $head = [
-            'title'       => $category->name,
-            'keywords'    => $category->keywords,
+            'title' => $category->name,
+            'keywords' => $category->keywords,
             'description' => $category->description,
         ];
         $assign = [
-            'category_id'  => $category->id,
-            'articles'     => $articles,
-            'tagName'      => '',
-            'title'        => $category->name,
-            'head'         => $head,
+            'category_id' => $category->id,
+            'articles' => $articles,
+            'tagName' => '',
+            'title' => $category->name,
+            'head' => $head,
         ];
 
-        return view('home.index.index', $assign);
+        return view ('home.index.index', $assign);
     }
 }
